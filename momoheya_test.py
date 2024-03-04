@@ -174,7 +174,7 @@ def manage_chat():
         ref.child("last_message_id").set(message_id_model)
      
 @app.route("/prompt", methods=['GET', 'POST'])
-def manage_chat():
+def manage_prompt():
     ref = db.reference("/chat")
     if request.method == 'GET':
         # 讀取 Firebase 的 '/chat' 節點
