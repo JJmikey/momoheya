@@ -173,6 +173,53 @@ def manage_chat():
         ref.child(f"log/{message_id_model}").set(model_message)
         ref.child("last_message_id").set(message_id_model)
      
+@app.route("/prompt", methods=['GET', 'POST'])
+def manage_chat():
+    ref = db.reference("/chat")
+    if request.method == 'GET':
+        # 讀取 Firebase 的 '/chat' 節點
+        chat_data = ref.get()  # 不指定子節點，直接讀取 'chat' 節點下所有數據
+        if chat_data:
+            return jsonify(chat_data), 200
+        else:
+            return jsonify({"error": "No data found."}), 404
+    
+    elif request.method == 'POST':
+        # 從請求體中提取用戶訊息和模型回應，以及消息 ID。
+        # Get last_message_id from Firebase and increment it
+        last_message_id = ref.child("last_message_id").get()
+        if last_message_id is None:
+            # If it doesn't exist, start it at 1
+            last_message_id = 1
+        else:
+            last_message_id += 1
+      
+        message_id_user = last_message_id     # 使用更新後的 last_message_id 作為用戶當前消息的 ID。
+        message_id_model = message_id_user+1  # 使用更新後的 last_message_id 作為model當前消息的 ID。
+        
+        # 收集模型的数据
+            
+        model_response = request.json.get('model_reply', '')        
+
+        #get current time
+        timestamp = datetime.utcnow().isoformat(timespec='seconds') + '+08:00'  # 假设你使用香港时间（UTC+8）
+
+
+        # 构建用户和模型消息的图像
+        
+        model_message = {
+            'id': message_id_model,
+            'role': "model",
+            'parts': model_response,
+            "timestamp": timestamp
+        }
+
+       
+        # 写入数据到 Firebase
+        
+        ref.child(f"log/{message_id_model}").set(model_message)
+        ref.child("last_message_id").set(message_id_model)
+     
 
 
 
