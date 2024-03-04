@@ -173,6 +173,10 @@ def manage_chat():
         ref.child(f"log/{message_id_model}").set(model_message)
         ref.child("last_message_id").set(message_id_model)
      
+        # Add this line:
+        return jsonify({"success": "Data has been written to Firebase successfully."}), 200
+
+
 @app.route("/prompt", methods=['GET', 'POST'])
 def manage_prompt():
     ref = db.reference("/chat")
@@ -220,7 +224,8 @@ def manage_prompt():
         ref.child(f"log/{message_id_model}").set(model_message)
         ref.child("last_message_id").set(message_id_model)
      
-
+        # Add this line:
+        return jsonify({"success": "Data has been written to Firebase successfully."}), 200
 
 
 @app.route("/character", methods=['POST'])
