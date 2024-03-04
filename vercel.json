@@ -18,6 +18,11 @@
             "source": "/character",
             "destination": "momoheya_test.py"
         }
+        , 
+        {
+            "source": "/prompt",
+            "destination": "momoheya_test.py"
+        }
     ],
     "headers": [
         {
