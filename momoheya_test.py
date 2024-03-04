@@ -194,8 +194,8 @@ def manage_prompt():
         else:
             last_message_id += 1
       
-        message_id_user = last_message_id     # 使用更新後的 last_message_id 作為用戶當前消息的 ID。
-        message_id_model = message_id_user+1  # 使用更新後的 last_message_id 作為model當前消息的 ID。
+
+        message_id_model = last_message_id+1  # 使用更新後的 last_message_id 作為model當前消息的 ID。
         
         # 收集模型的数据
             
